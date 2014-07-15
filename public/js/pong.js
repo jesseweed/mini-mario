@@ -69,7 +69,7 @@ Pong.init = function ( dir ) {  // INITALIZE J
         self.env.h = Pong.Browser.size('h', 'inner');
 
         // Initialize Game Engine
-        self.Engine = new Phaser.Game(self.env.w, self.env.h, Phaser.AUTO, '', {
+        self.Engine = new Phaser.Game(1000, self.env.h, Phaser.AUTO, '', {
         // self.Engine = new Phaser.Game(800, 600, Phaser.AUTO, '', {
           preload: Pong.Game.preload,
           create: Pong.Game.create,

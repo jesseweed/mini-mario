@@ -50,6 +50,7 @@ Pong.Game = {
     var self = Pong.Game,
         game = Pong.Engine;
 
+    // IMAGES
     game.load.image('sky', 'img/game/sky.png');
     game.load.image('bush', 'img/game/bush-large.png');
     game.load.image('bush-small', 'img/game/bush-small.png');
@@ -58,6 +59,11 @@ Pong.Game = {
     game.load.image('star', 'img/game/star.png');
     game.load.spritesheet('dude', 'img/game/dude.png', 32, 48);
     game.load.spritesheet('mario', 'img/game/dude2.png', 32, 28);
+
+    // AUDIO
+    game.load.audio('coin', ['audio/coin.mp3']);
+    game.load.audio('jump', ['audio/jump.mp3']);
+    game.load.audio('theme', ['audio/theme.mp3']);
 
   },
 
@@ -70,11 +76,11 @@ Pong.Game = {
     self.score = 0;
 
     Pong.Game.world();
+    self.addPlayer();
+    self.addStars();
 
-    console.log('PLAYER');
-    console.log(self.player);
-    console.log('PLATFORMS');
-    console.log(self.platforms);
+    music = game.add.audio('theme');
+    music.play();
 
   },
 
@@ -86,6 +92,10 @@ Pong.Game = {
         ground = self.ground,
         platforms = self.platforms,
         cursors = game.input.keyboard.createCursorKeys();
+
+
+    // KEYS
+    jump = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     game.physics.arcade.collide( player, platforms);
 
@@ -115,9 +125,11 @@ Pong.Game = {
     }
 
     //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
+    if (jump.isDown && player.body.touching.down ||  cursors.up.isDown && player.body.touching.down)
     {
-        player.body.velocity.y = -270;
+        player.body.velocity.y = -500;
+        music = game.add.audio('jump');
+        music.play();
     }
 
     game.physics.arcade.collide(self.stars, self.platforms);
@@ -138,6 +150,9 @@ Pong.Game = {
 
     self.score += 10;
     self.scoreText.text = 'Score: ' + self.score;
+
+    music = game.add.audio('coin');
+    music.play();
 
   },
 
@@ -202,9 +217,6 @@ Pong.Game = {
     self.ground = ground;
     self.ledge = ledge;
 
-    self.addPlayer();
-    self.addStars();
-
   },
 
 
@@ -222,10 +234,10 @@ Pong.Game = {
     stars.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 20; i++)
+    for (var i = 0; i < 40; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = stars.create(i * (game.world.width/20), -20, 'star');
+        var star = stars.create(i * (game.world.width/40), -20, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 400;
@@ -258,7 +270,7 @@ Pong.Game = {
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 1000;
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
