@@ -79,7 +79,7 @@ Pong.Game = {
     self.addPlayer();
     self.addStars();
 
-    music = game.add.audio('theme');
+    music = game.add.audio('theme', 0.7, true);
     music.play();
 
   },
@@ -190,10 +190,10 @@ Pong.Game = {
 
     // ledge = platforms.create(-150, 250, 'platform');
 
-    ledge = platforms.create(game.world.width - (game.world.width * 1.05), game.world.height - 150, 'platform');
+    ledge = platforms.create(game.world.width - (game.world.width * 1), game.world.height - 150, 'platform');
 
     ledge2 = platforms.create(game.world.width - (game.world.width * 0.9), game.world.height - 250, 'platform');
-    ledge3 = platforms.create(game.world.width - (game.world.width / 2), game.world.height - 250, 'platform');
+    ledge3 = platforms.create(game.world.width - (game.world.width / 1.9), game.world.height - 250, 'platform');
     ledge4 = platforms.create(game.world.width - (game.world.width * 0.75 ), game.world.height - 350, 'platform');
     // ledge3 = platforms.create(500, 650, 'platform');
 
