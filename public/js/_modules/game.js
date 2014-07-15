@@ -263,7 +263,7 @@ Pong.Game = {
         game = Pong.Engine;
 
     // The player and its settings
-    player = game.add.sprite(100, game.world.height - 100, 'mario');
+    player = game.add.sprite(200, game.world.height - 100, 'mario');
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
