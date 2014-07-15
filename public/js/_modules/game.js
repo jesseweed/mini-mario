@@ -1,0 +1,276 @@
+/*
+
+    FILE: BROWSER.JS
+    DESCRIPTION: Browser and File locations
+    AUTHOR(S): Jesse Weed
+
+    TO DO:
+
+*/
+
+var Pong = window.Pong || {};
+
+Pong.Game = {
+
+
+  /* - - - - - - - - - - - - - - - - - >
+
+      CONFIGURATION & INITILIZATION
+
+  < - - - - - - - - - - - - - - - - - */
+
+
+  config : {  // CONFIG SETTINGS FOR BROWSER
+
+    mobilePX: 768,
+    tabletPX: 1024
+
+  }, // END: INIT
+
+
+  init : function () {  // INITIALIZE BROWSER
+
+    var self = this;
+
+    Pong.info('Game module was loaded');
+
+  }, // END: INIT
+
+
+
+  /* - - - - - - - - - - - - - - - - - >
+
+      MODULE FUNCTIONS
+
+  < - - - - - - - - - - - - - - - - - */
+
+
+  preload : function () {
+
+    var self = Pong.Game,
+        game = Pong.Engine;
+
+    game.load.image('sky', 'img/game/sky.png');
+    game.load.image('bush', 'img/game/bush-large.png');
+    game.load.image('bush-small', 'img/game/bush-small.png');
+    game.load.image('ground', 'img/game/ground.png');
+    game.load.image('platform', 'img/game/bricks.png');
+    game.load.image('star', 'img/game/star.png');
+    game.load.spritesheet('dude', 'img/game/dude.png', 32, 48);
+    game.load.spritesheet('mario', 'img/game/dude2.png', 32, 28);
+
+  },
+
+  create : function () {
+
+    var self = Pong.Game,
+        game = Pong.Engine;
+
+
+    self.score = 0;
+
+    Pong.Game.world();
+
+    console.log('PLAYER');
+    console.log(self.player);
+    console.log('PLATFORMS');
+    console.log(self.platforms);
+
+  },
+
+  update : function () {
+
+    var self = Pong.Game,
+        game = Pong.Engine,
+        player = self.player,
+        ground = self.ground,
+        platforms = self.platforms,
+        cursors = game.input.keyboard.createCursorKeys();
+
+    game.physics.arcade.collide( player, platforms);
+
+     //  Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown)
+    {
+        //  Move to the left
+        player.body.velocity.x = -150;
+
+        player.animations.play('left');
+    }
+    else if (cursors.right.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.x = 150;
+
+        player.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        player.animations.stop();
+
+        player.frame = 4;
+    }
+
+    //  Allow the player to jump if they are touching the ground.
+    if (cursors.up.isDown && player.body.touching.down)
+    {
+        player.body.velocity.y = -270;
+    }
+
+    game.physics.arcade.collide(self.stars, self.platforms);
+
+    game.physics.arcade.overlap(self.player, self.stars, self.collectStar, null, this);
+
+    self.cursors = cursors;
+
+
+  },
+
+  collectStar : function(player, star) {
+
+    var self = Pong.Game,
+        game = Pong.Engine;
+
+    star.kill();
+
+    self.score += 10;
+    self.scoreText.text = 'Score: ' + self.score;
+
+  },
+
+  world : function() {
+
+    var self = Pong.Game,
+        game = Pong.Engine;
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'sky');
+
+    //  The platforms group contains the ground and the 2 ledges we can jump on
+    platforms = game.add.group();
+
+    // Add Background items
+    background = game.add.group();
+
+    //  We will enable physics for any object that is created in this group
+    platforms.enableBody = true;
+
+    // Here we create the ground.
+    var ground = platforms.create(0, game.world.height - 48, 'ground');
+
+    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+    ground.scale.setTo(1, 1);
+
+    //  This stops it from falling away when you jump on it
+    ground.body.immovable = true;
+
+    //  Now let's create two ledges
+    // var ledge = platforms.create(215, 650, 'platform');
+
+    // ledge = platforms.create(-150, 250, 'platform');
+
+    ledge = platforms.create(game.world.width - (game.world.width * 1.05), game.world.height - 150, 'platform');
+
+    ledge2 = platforms.create(game.world.width - (game.world.width * 0.9), game.world.height - 250, 'platform');
+    ledge3 = platforms.create(game.world.width - (game.world.width / 2), game.world.height - 250, 'platform');
+    ledge4 = platforms.create(game.world.width - (game.world.width * 0.75 ), game.world.height - 350, 'platform');
+    // ledge3 = platforms.create(500, 650, 'platform');
+
+    // ledge4 = platforms.create(1000, 650, 'platform');
+
+    // ledge.body.immovable = true;
+
+    ledge.body.immovable = true;
+    ledge2.body.immovable = true;
+    ledge3.body.immovable = true;
+    ledge4.body.immovable = true;
+
+
+    // BUSHES
+    var bush1 = background.create(-140, game.world.height - 80, 'bush');
+
+    var bush2 = background.create(game.world.width * 0.4, game.world.height - 80, 'bush');
+
+
+    self.platforms = platforms;
+    self.ground = ground;
+    self.ledge = ledge;
+
+    self.addPlayer();
+    self.addStars();
+
+  },
+
+
+  addStars : function() {
+
+    var self = Pong.Game,
+        game = Pong.Engine,
+        player = self.player,
+        platforms = self.platforms;
+
+    //  Finally some stars to collect
+    var stars = game.add.group();
+
+    //  We will enable physics for any star that is created in this group
+    stars.enableBody = true;
+
+    //  Here we'll create 12 of them evenly spaced apart
+    for (var i = 0; i < 20; i++)
+    {
+        //  Create a star inside of the 'stars' group
+        var star = stars.create(i * (game.world.width/20), -20, 'star');
+
+        //  Let gravity do its thing
+        star.body.gravity.y = 400;
+
+        //  This just gives each star a slightly random bounce value
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
+
+    //  The score
+    self.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+    //  Our controls.
+    cursors = game.input.keyboard.createCursorKeys();
+
+    self.stars = stars;
+
+  },
+
+
+  addPlayer : function() {
+
+    var self = Pong.Game,
+        game = Pong.Engine;
+
+    // The player and its settings
+    player = game.add.sprite(100, game.world.height - 100, 'mario');
+
+    //  We need to enable physics on the player
+    game.physics.arcade.enable(player);
+
+    //  Player physics properties. Give the little guy a slight bounce.
+    player.body.bounce.y = 0.2;
+    player.body.gravity.y = 300;
+    player.body.collideWorldBounds = true;
+
+    //  Our two animations, walking left and right.
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+    self.player = player;
+
+  }
+
+
+};
+
+
+// END FILE: Pong.BROWSER.JS
