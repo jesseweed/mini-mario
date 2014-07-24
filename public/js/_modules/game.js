@@ -1,16 +1,14 @@
 /*
 
-    FILE: BROWSER.JS
-    DESCRIPTION: Browser and File locations
+    FILE: GAME.JS
+    DESCRIPTION: Basic game functions
     AUTHOR(S): Jesse Weed
-
-    TO DO:
 
 */
 
-var Pong = window.Pong || {};
+var Mario = window.Mario || {};
 
-Pong.Game = {
+Mario.Game = {
 
 
   /* - - - - - - - - - - - - - - - - - >
@@ -20,19 +18,11 @@ Pong.Game = {
   < - - - - - - - - - - - - - - - - - */
 
 
-  config : {  // CONFIG SETTINGS FOR BROWSER
-
-    mobilePX: 768,
-    tabletPX: 1024
-
-  }, // END: INIT
-
-
   init : function () {  // INITIALIZE BROWSER
 
     var self = this;
 
-    Pong.info('Game module was loaded');
+    Mario.info('Game module was loaded');
 
   }, // END: INIT
 
@@ -47,8 +37,8 @@ Pong.Game = {
 
   preload : function () {
 
-    var self = Pong.Game,
-        game = Pong.Engine;
+    var self = Mario.Game,
+        game = Mario.Engine;
 
     // IMAGES
     game.load.image('sky', 'img/game/sky.png');
@@ -69,13 +59,13 @@ Pong.Game = {
 
   create : function () {
 
-    var self = Pong.Game,
-        game = Pong.Engine;
+    var self = Mario.Game,
+        game = Mario.Engine;
 
 
     self.score = 0;
 
-    Pong.Game.world();
+    Mario.Game.world();
     self.addPlayer();
     self.addStars();
 
@@ -86,8 +76,8 @@ Pong.Game = {
 
   update : function () {
 
-    var self = Pong.Game,
-        game = Pong.Engine,
+    var self = Mario.Game,
+        game = Mario.Engine,
         player = self.player,
         ground = self.ground,
         platforms = self.platforms,
@@ -143,8 +133,8 @@ Pong.Game = {
 
   collectStar : function(player, star) {
 
-    var self = Pong.Game,
-        game = Pong.Engine;
+    var self = Mario.Game,
+        game = Mario.Engine;
 
     star.kill();
 
@@ -158,8 +148,8 @@ Pong.Game = {
 
   world : function() {
 
-    var self = Pong.Game,
-        game = Pong.Engine;
+    var self = Mario.Game,
+        game = Mario.Engine;
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -222,8 +212,8 @@ Pong.Game = {
 
   addStars : function() {
 
-    var self = Pong.Game,
-        game = Pong.Engine,
+    var self = Mario.Game,
+        game = Mario.Engine,
         player = self.player,
         platforms = self.platforms;
 
@@ -243,7 +233,7 @@ Pong.Game = {
         star.body.gravity.y = 400;
 
         //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        star.body.bounce.y = 0.7 + Math.random() * 0.3;
     }
 
     //  The score
@@ -259,8 +249,8 @@ Pong.Game = {
 
   addPlayer : function() {
 
-    var self = Pong.Game,
-        game = Pong.Engine;
+    var self = Mario.Game,
+        game = Mario.Engine;
 
     // The player and its settings
     player = game.add.sprite(200, game.world.height - 100, 'mario');
@@ -285,4 +275,4 @@ Pong.Game = {
 };
 
 
-// END FILE: Pong.BROWSER.JS
+// END FILE: Mario.BROWSER.JS

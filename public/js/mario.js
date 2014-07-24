@@ -1,15 +1,12 @@
 /*
 
-    FILE: Pong.js
+    FILE: Mario.js
     DESCRIPTION: Basic App functions and config
-    AUTHOR(S): Jesse Weed, Nick Katarow
-
-    TO DO:
-    - Compare use of head.js with another similar library, like require.js
+    AUTHOR(S): Jesse Weed
 
 */
 
-var Pong = window.Pong || {};
+var Mario = window.Mario || {};
 
 /* - - - - - - - - - - - - - - - - - >
 
@@ -17,7 +14,7 @@ var Pong = window.Pong || {};
 
 < - - - - - - - - - - - - - - - - - */
 
-Pong.config = {  // GLOBAL CONFIG SETTINGS
+Mario.config = {  // GLOBAL CONFIG SETTINGS
 
     // SET TO FALSE TO DISABLE LOGGING TO CONSOLE
     debug : true,
@@ -30,30 +27,30 @@ Pong.config = {  // GLOBAL CONFIG SETTINGS
 }; // END: CONFIG
 
 
-Pong.html = {  // SET REFERENCES TO HTML ELEMENTS HERE
+Mario.html = {  // SET REFERENCES TO HTML ELEMENTS HERE
 
 
 }; // END: HTML
 
-Pong.engine = false;
+Mario.engine = false;
 
-Pong.env = {
-  w: 100,
-  h: 200
+Mario.env = {
+  w: 800,
+  h: 600
 };
 
-Pong.init = function ( dir ) {  // INITALIZE J
+Mario.init = function ( dir ) {  // INITALIZE J
 
   var self = this
       self.dir = dir;
 
-  self.info('Pong loaded');
+  self.info('Mario loaded');
 
     head.load(self.dir.lib + 'phaser/./phaser.js', function() {
 
       // head.load(self.dir.js + '_modules/game.js', function() {
       //   // console.log(Phaser);
-      //   self.Engine = new Phaser.Game(1000, 600, Phaser.AUTO, '', { preload: Pong.Game.preload, create: Pong.Game.create });
+      //   self.Engine = new Phaser.Game(1000, 600, Phaser.AUTO, '', { preload: Mario.Game.preload, create: Mario.Game.create });
       // });
 
     });
@@ -65,15 +62,15 @@ Pong.init = function ( dir ) {  // INITALIZE J
       function() {
 
         // Get Environment Info
-        self.env.w = Pong.Browser.size('w');
-        self.env.h = Pong.Browser.size('h', 'inner');
+        self.env.w = Mario.Browser.size('w');
+        self.env.h = Mario.Browser.size('h', 'inner');
 
         // Initialize Game Engine
         self.Engine = new Phaser.Game(self.env.w, self.env.h, Phaser.AUTO, '', {
         // self.Engine = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-          preload: Pong.Game.preload,
-          create: Pong.Game.create,
-          update: Pong.Game.update,
+          preload: Mario.Game.preload,
+          create: Mario.Game.create,
+          update: Mario.Game.update,
         });
 
     });
@@ -82,14 +79,14 @@ Pong.init = function ( dir ) {  // INITALIZE J
 }; // END: INIT
 
 
-Pong.bind = function () {  // GLOBAL BINDINGS
+Mario.bind = function () {  // GLOBAL BINDINGS
 
   var self = this;
 
   // Track window size if it changes
   window.onresize = function(event) {
-    self.env.w = Pong.Browser.size('w', 'inner');
-    self.env.h = Pong.Browser.size('h', 'inner');
+    self.env.w = Mario.Browser.size('w', 'inner');
+    self.env.h = Mario.Browser.size('h', 'inner');
 
     console.log( self.Engine );
   };
@@ -102,7 +99,7 @@ Pong.bind = function () {  // GLOBAL BINDINGS
 
 //  LOGGING
 
-Pong.error = function (what) {  // LOG AN ERROR TO THE CONSOLE
+Mario.error = function (what) {  // LOG AN ERROR TO THE CONSOLE
 
     var self = this;
 
@@ -115,7 +112,7 @@ Pong.error = function (what) {  // LOG AN ERROR TO THE CONSOLE
 };
 
 
-Pong.info = function (what) {  // LOG SOME INFO TO THE CONSOLE
+Mario.info = function (what) {  // LOG SOME INFO TO THE CONSOLE
 
     var self = this;
 
@@ -127,7 +124,7 @@ Pong.info = function (what) {  // LOG SOME INFO TO THE CONSOLE
 
 };
 
-Pong.log = function (what) {  // LOG TO CONSOLE IF CONSOLE EXISTS && DEBUG === TRUE
+Mario.log = function (what) {  // LOG TO CONSOLE IF CONSOLE EXISTS && DEBUG === TRUE
 
     var self = this;
 
@@ -140,7 +137,7 @@ Pong.log = function (what) {  // LOG TO CONSOLE IF CONSOLE EXISTS && DEBUG === T
 }; // END: LOG
 
 
-Pong.warn = function (what) {  // LOG A WARNING TO THE CONSOLE
+Mario.warn = function (what) {  // LOG A WARNING TO THE CONSOLE
 
     var self = this;
 

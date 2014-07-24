@@ -8,9 +8,9 @@
 
 */
 
-var Pong = window.Pong || {};
+var Mario = window.Mario || {};
 
-Pong.Browser = {
+Mario.Browser = {
 
 
     /* - - - - - - - - - - - - - - - - - >
@@ -19,20 +19,11 @@ Pong.Browser = {
 
     < - - - - - - - - - - - - - - - - - */
 
-
-    config : {  // CONFIG SETTINGS FOR BROWSER
-
-        mobilePX: 768, // andthing under this size is considered "mobile-ish"
-        tabletPX: 1024 // andthing under this size is considered "tablet-ish"
-
-    }, // END: INIT
-
-
     init : function () {  // INITIALIZE BROWSER
 
         var self = this;
 
-        Pong.info('Browser module was loaded');
+        Mario.info('Browser module was loaded');
 
     }, // END: INIT
 
@@ -216,4 +207,4 @@ Pong.Browser = {
 };
 
 
-// END FILE: Pong.BROWSER.JS
+// END FILE: Mario.BROWSER.JS
